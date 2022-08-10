@@ -68,6 +68,18 @@ local function DropdownIcon(ButtonOrNot)
 	return NewDropdownIcon
 end
 
+local function SearchIcon(ButtonOrNot)
+	local NewSearchIcon = Instance.new(ButtonOrNot and "ImageButton" or "ImageLabel")
+	NewSearchIcon.Name = "SearchIcon"
+	NewSearchIcon.BackgroundTransparency = 1
+	NewSearchIcon.Image = IconLibraryID
+	NewSearchIcon.ImageRectOffset = Vector2.new(964,324)
+	NewSearchIcon.ImageRectSize = Vector2.new(36,36)
+	NewSearchIcon.Size = UDim2.new(0,16,0,16)
+	NewSearchIcon.Position = UDim2.new(0,2,0,2)
+	NewSearchIcon.ZIndex = Level
+	return NewSearchIcon
+end
 
 local function RoundBox(CornerRadius, ButtonOrNot)
 	local NewRoundBox = Instance.new(ButtonOrNot and "ImageButton" or "ImageLabel")
@@ -265,7 +277,45 @@ function UILibrary.Load(GUITitle)
 	MenuListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	MenuListLayout.Padding = UDim.new(0,5)
 	MenuListLayout.Parent = MenuBar
-
+	
+	local TabCount = 0
+	
+	local TabLibrary = {}
+	
+	function TabLibrary.AddPage(PageTitle, SearchBarIncluded)
+		local SearchBarIncluded = (SearchBarIncluded == nil) and true or SearchBarIncluded
+		
+		local PageContainer = RoundBox(5)
+		PageContainer.Name = PageTitle
+		PageContainer.Size = UDim2.new(1,0,0,20)
+		PageContainer.LayoutOrder = TabCount
+		PageContainer.ImageColor3 = (TabCount == 0) and Color3.fromRGB(50,50,50) or Color3.fromRGB(40,40,40)
+		PageContainer.Parent = MenuBar
+		
+		local PageButton = TextButton(PageTitle, 14)
+		PageButton.Name = PageTitle.."Button"
+		PageButton.TextTransparency = (TabCount == 0) and 0 or 0.5
+		PageButton.Parent = PageContainer
+		
+		PageButton.MouseButton1Down:Connect(function()
+			spawn(function()
+				for _, Button in next, MenuBar:GetChildren() do
+					if Button:IsA("GuiObject") then
+						local IsButton = string.find(Button.Name:lower(), PageContainer.Name:lower())
+						local Button2 = Button:FindFirstChild(Button.Name.."Button")
+						Tween(Button, {ImageColor3 = IsButton and Color3.fromRGB(50,50,50) or Color3.fromRGB(40,40,40)})
+						Tween(Button2, {TextTransparency = IsButton and 0 or 0.5})
+					end
+				end
+			end)
+			spawn(function()
+				for _, Display in next, DisplayFrame:GetChildren() do
+					if Display:IsA("GuiObject") then
+						Display.Visible = string.find(Display.Name:lower(), PageContainer.Name:lower())
+					end
+				end
+			end)
+		end)
 		
 		local DisplayPage = ScrollingFrame()
 		DisplayPage.Visible = (TabCount == 0)
@@ -292,6 +342,41 @@ function UILibrary.Load(GUITitle)
 		DisplayPadding.PaddingLeft = UDim.new(0,5)
 		DisplayPadding.PaddingRight = UDim.new(0,5)
 		DisplayPadding.Parent = DisplayPage
+		
+		if SearchBarIncluded then
+			local SearchBarContainer = RoundBox(5)
+			SearchBarContainer.Name = "SearchBar"
+			SearchBarContainer.ImageColor3 = Color3.fromRGB(35,35,35)
+			SearchBarContainer.Size = UDim2.new(1,0,0,20)
+			SearchBarContainer.Parent = DisplayPage
+			
+			local SearchBox = TextBox("Search...")
+			SearchBox.Name = "SearchInput"
+			SearchBox.Position = UDim2.new(0,20,0,0)
+			SearchBox.Size = UDim2.new(1,-20,1,0)
+			SearchBox.TextTransparency = 0.5
+			SearchBox.TextXAlignment = Enum.TextXAlignment.Left
+			SearchBox.Parent = SearchBarContainer
+			
+			local SearchIcon = SearchIcon()
+			SearchIcon.Parent = SearchBarContainer
+			
+			SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+				local NewValue = SearchBox.Text
+				
+				for _, Element in next, DisplayPage:GetChildren() do
+					if Element:IsA("Frame") then
+						if not string.find(Element.Name:lower(), "label") then
+							if string.find(Element.Name:lower(), NewValue:lower()) then
+								Element.Visible = true
+							else
+								Element.Visible = false
+							end
+						end
+					end
+				end
+			end)
+		end
 		
 		local PageLibrary = {}
 		
