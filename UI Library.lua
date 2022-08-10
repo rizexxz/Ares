@@ -343,41 +343,6 @@ function UILibrary.Load(GUITitle)
 		DisplayPadding.PaddingRight = UDim.new(0,5)
 		DisplayPadding.Parent = DisplayPage
 		
-		if SearchBarIncluded then
-			local SearchBarContainer = RoundBox(5)
-			SearchBarContainer.Name = "SearchBar"
-			SearchBarContainer.ImageColor3 = Color3.fromRGB(35,35,35)
-			SearchBarContainer.Size = UDim2.new(1,0,0,20)
-			SearchBarContainer.Parent = DisplayPage
-			
-			local SearchBox = TextBox("Search...")
-			SearchBox.Name = "SearchInput"
-			SearchBox.Position = UDim2.new(0,20,0,0)
-			SearchBox.Size = UDim2.new(1,-20,1,0)
-			SearchBox.TextTransparency = 0.5
-			SearchBox.TextXAlignment = Enum.TextXAlignment.Left
-			SearchBox.Parent = SearchBarContainer
-			
-			local SearchIcon = SearchIcon()
-			SearchIcon.Parent = SearchBarContainer
-			
-			SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
-				local NewValue = SearchBox.Text
-				
-				for _, Element in next, DisplayPage:GetChildren() do
-					if Element:IsA("Frame") then
-						if not string.find(Element.Name:lower(), "label") then
-							if string.find(Element.Name:lower(), NewValue:lower()) then
-								Element.Visible = true
-							else
-								Element.Visible = false
-							end
-						end
-					end
-				end
-			end)
-		end
-		
 		local PageLibrary = {}
 		
 		function PageLibrary.AddButton(Text, Callback, Parent, Underline)
