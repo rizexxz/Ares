@@ -265,7 +265,7 @@ function UILibrary.Load(GUITitle)
 	MenuListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	MenuListLayout.Padding = UDim.new(0,5)
 	MenuListLayout.Parent = MenuBar
-	
+
 		
 		local DisplayPage = ScrollingFrame()
 		DisplayPage.Visible = (TabCount == 0)
