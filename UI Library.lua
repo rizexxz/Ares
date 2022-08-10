@@ -68,18 +68,6 @@ local function DropdownIcon(ButtonOrNot)
 	return NewDropdownIcon
 end
 
-local function SearchIcon(ButtonOrNot)
-	local NewSearchIcon = Instance.new(ButtonOrNot and "ImageButton" or "ImageLabel")
-	NewSearchIcon.Name = "SearchIcon"
-	NewSearchIcon.BackgroundTransparency = 1
-	NewSearchIcon.Image = IconLibraryID
-	NewSearchIcon.ImageRectOffset = Vector2.new(964,324)
-	NewSearchIcon.ImageRectSize = Vector2.new(36,36)
-	NewSearchIcon.Size = UDim2.new(0,16,0,16)
-	NewSearchIcon.Position = UDim2.new(0,2,0,2)
-	NewSearchIcon.ZIndex = Level
-	return NewSearchIcon
-end
 
 local function RoundBox(CornerRadius, ButtonOrNot)
 	local NewRoundBox = Instance.new(ButtonOrNot and "ImageButton" or "ImageLabel")
@@ -278,44 +266,6 @@ function UILibrary.Load(GUITitle)
 	MenuListLayout.Padding = UDim.new(0,5)
 	MenuListLayout.Parent = MenuBar
 	
-	local TabCount = 0
-	
-	local TabLibrary = {}
-	
-	function TabLibrary.AddPage(PageTitle, SearchBarIncluded)
-		local SearchBarIncluded = (SearchBarIncluded == nil) and true or SearchBarIncluded
-		
-		local PageContainer = RoundBox(5)
-		PageContainer.Name = PageTitle
-		PageContainer.Size = UDim2.new(1,0,0,20)
-		PageContainer.LayoutOrder = TabCount
-		PageContainer.ImageColor3 = (TabCount == 0) and Color3.fromRGB(50,50,50) or Color3.fromRGB(40,40,40)
-		PageContainer.Parent = MenuBar
-		
-		local PageButton = TextButton(PageTitle, 14)
-		PageButton.Name = PageTitle.."Button"
-		PageButton.TextTransparency = (TabCount == 0) and 0 or 0.5
-		PageButton.Parent = PageContainer
-		
-		PageButton.MouseButton1Down:Connect(function()
-			spawn(function()
-				for _, Button in next, MenuBar:GetChildren() do
-					if Button:IsA("GuiObject") then
-						local IsButton = string.find(Button.Name:lower(), PageContainer.Name:lower())
-						local Button2 = Button:FindFirstChild(Button.Name.."Button")
-						Tween(Button, {ImageColor3 = IsButton and Color3.fromRGB(50,50,50) or Color3.fromRGB(40,40,40)})
-						Tween(Button2, {TextTransparency = IsButton and 0 or 0.5})
-					end
-				end
-			end)
-			spawn(function()
-				for _, Display in next, DisplayFrame:GetChildren() do
-					if Display:IsA("GuiObject") then
-						Display.Visible = string.find(Display.Name:lower(), PageContainer.Name:lower())
-					end
-				end
-			end)
-		end)
 		
 		local DisplayPage = ScrollingFrame()
 		DisplayPage.Visible = (TabCount == 0)
