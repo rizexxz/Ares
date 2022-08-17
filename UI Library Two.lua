@@ -1,3 +1,7 @@
+if game.CoreGui:FindFirstChild("VenLib") then
+    game.CoreGui.VenLib:Destroy()
+end
+
 local TweenService = game:GetService("TweenService")
 local function ripple(obj)
 	spawn(
