@@ -125,7 +125,7 @@ function lib:Window(text)
 	mainframe.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 	mainframe.BorderSizePixel = 0
 	mainframe.ClipsDescendants = true
-	mainframe.Position = UDim2.new(0.396874994, 0, 0.372807026, 0)
+	mainframe.Position = UDim2.new(1, -406, 1, -241)
 	mainframe.Size = UDim2.new(0, 396, 0, 231)
 	draggable(mainframe)
 
