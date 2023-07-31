@@ -2,7 +2,7 @@ if game.CoreGui:FindFirstChild("timeGui") then
     game.CoreGui.timeGui:Destroy()
 end
 
-local timeGui = Instance.new("ScreenGui")
+local timeGui = Instance.new("timeGui")
 local Frame = Instance.new("Frame")
 local label1 = Instance.new("TextLabel")
 local label2 = Instance.new("TextLabel")
