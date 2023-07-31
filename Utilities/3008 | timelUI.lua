@@ -1,8 +1,8 @@
-if game.CoreGui:FindFirstChild("ScreenGui") then
-    game.CoreGui.ScreenGui:Destroy()
+if game.CoreGui:FindFirstChild("timeGui") then
+    game.CoreGui.timeGui:Destroy()
 end
 
-local ScreenGui = Instance.new("ScreenGui")
+local timeGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local label1 = Instance.new("TextLabel")
 local label2 = Instance.new("TextLabel")
@@ -10,10 +10,10 @@ local utdn = game:GetService("ReplicatedStorage").ServerSettings.TimeSettings.Ti
 
 -- Properties:
 
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+timeGui.Parent = game.CoreGui
+timeGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-Frame.Parent = ScreenGui
+Frame.Parent = timeGui
 Frame.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
